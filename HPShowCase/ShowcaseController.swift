@@ -11,7 +11,7 @@ import UIKit
 protocol FinishHelpDelegate: class {
     func helpShowFinished()
 }
-class ShowCaseController {
+class ShowcaseController {
     
     fileprivate static var showcaseControllerInstance: ShowcaseController? = nil
     static var instance: ShowcaseController = {
