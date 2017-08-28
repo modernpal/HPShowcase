@@ -17,7 +17,7 @@
 import UIKit
 
 /// Creates a subtraction path that is rectangular.
-public class TARectangularSubtractionPath: TABaseSubtractionPath {
+public class TASubtractionPath: TABaseSubtractionPath {
     /// Total padding applied to the left and the right of ``self.frame``.
     let horizontalPadding: CGFloat
     
@@ -25,10 +25,12 @@ public class TARectangularSubtractionPath: TABaseSubtractionPath {
     let verticalPadding: CGFloat
     
     /// Rect Radius
-    let radius: CGFloat
+    let cornerRadius: CGFloat
     
     /// Is circle
-    let isCircle: Bool
+    let shape: Shape
+    
+    let view: UIView
     
     /// Use to init the path.
     ///
@@ -36,12 +38,13 @@ public class TARectangularSubtractionPath: TABaseSubtractionPath {
     /// - parameter horizontalPadding: Total padding applied to the left and the right of the ``frame``.
     /// - parameter verticalPadding: Total padding applied to the top and the bottom of the ``frame``.
     ///
-    public init(frame: CGRect, horizontalPadding: CGFloat = 0, verticalPadding: CGFloat = 0, radius: CGFloat = 0, isCircle: Bool = false) {
+    public init(view: UIView, horizontalPadding: CGFloat = 0, verticalPadding: CGFloat = 0, cornerRadius: CGFloat = 0, shape: Shape = .rectangle) {
         self.horizontalPadding = horizontalPadding
         self.verticalPadding = verticalPadding
-        self.radius = radius
-        self.isCircle = isCircle
-        super.init(frame: frame)
+        self.cornerRadius = cornerRadius
+        self.shape = shape
+        self.view = view
+        super.init(frame: view.frame)
     }
     
     /// Creates a rectangular path with the given padding. The frame is centered in the padding.
@@ -56,11 +59,18 @@ public class TARectangularSubtractionPath: TABaseSubtractionPath {
         rect.size.width += 2 * self.horizontalPadding
         rect.size.height += 2 * self.verticalPadding
         
-        if isCircle {
-            return UIBezierPath(arcCenter: CGPoint(x: rect.origin.x + rect.size.width/2,y: rect.origin.y + rect.size.height/2), radius: radius, startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+        if shape == .circle {
+            return UIBezierPath(arcCenter: CGPoint(x: rect.origin.x + rect.size.width/2,y: rect.origin.y + rect.size.height/2), radius: view.frame.size.height/2, startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
         } else {
-            return UIBezierPath(roundedRect: rect, cornerRadius: radius)
+            return UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         }
+    }
+    
+    public enum Shape {
+        
+        case circle
+        case rectangle
+        
     }
     
 }

@@ -28,7 +28,7 @@ public class TAOverlayView: UIView {
     var tirangelImageView: UIImageView!
     var contentView: UIView!
     var hintText: String = ""
-    var targetView: UIView!
+    var hintLableTargetView: UIView!
     var boxPosition: DialogBoxPosition = .bottom
     
     /// Use to init the overlay.
@@ -36,10 +36,11 @@ public class TAOverlayView: UIView {
     /// - parameter frame: The frame to use for the semi-transparent overlay.
     /// - parameter subtractedPaths: The paths to subtract from the overlay initially. These are optional (not adding them creates a plain overlay). More paths can be subtracted later using ``subtractFromView``.
     ///
-    init(frame: CGRect, subtractedPaths: [TABaseSubtractionPath]? = nil, targetView: UIView, rectangleRect: CGRect) {
-        super.init(frame: frame)
+    init(subtractedPaths: [TASubtractionPath], hintLableTargetView: UIView?, rectangleRect: CGRect) {
+        super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         
-        self.targetView = targetView
+        self.hintLableTargetView = hintLableTargetView ?? subtractedPaths.first!.view
+        
         // Set a semi-transparent, black background.
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
         self.alpha = 0.0
@@ -56,11 +57,8 @@ public class TAOverlayView: UIView {
         // Set the mask of the view.
         self.layer.mask = maskLayer
         
-        if let paths = subtractedPaths {
-            // Subtract any given paths.
-            self.subtractFromView(paths: paths)
-        }
-        
+        self.subtractFromView(paths: subtractedPaths)
+
         hideButton = UIButton(frame: .zero)
         hideButton.addTarget(self, action: #selector(hideButtonTouchUpInside), for: .touchUpInside)
         hideButton.translatesAutoresizingMaskIntoConstraints = false
@@ -68,7 +66,7 @@ public class TAOverlayView: UIView {
         
         switch boxPosition {
         case .top:
-            tirangelImageView = UIImageView(frame: CGRect(x: targetView.center.x, y: targetView.frame.origin.y - 20, width: 15, height: 20))
+            tirangelImageView = UIImageView(frame: CGRect(x: self.hintLableTargetView.center.x, y: self.hintLableTargetView.frame.origin.y - 20, width: 15, height: 20))
             tirangelImageView.clipsToBounds = true
             tirangelImageView.contentMode = .scaleAspectFit
             tirangelImageView.image = .mpTriangleBottom()
@@ -94,14 +92,14 @@ public class TAOverlayView: UIView {
             
             let textLabelLayoutConstraint = [
                 NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: tirangelImageView, attribute: .top, multiplier: 1, constant: 5)
-                , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: tirangelImageView , attribute: .leading, multiplier: 1, constant:rectangleRect.origin.x - (tirangelImageView.center.x - targetView.frame.size.width / 2))
+                , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: tirangelImageView , attribute: .leading, multiplier: 1, constant: rectangleRect.origin.x - (tirangelImageView.center.x - self.hintLableTargetView.frame.size.width / 2))
                 , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
                 , NSLayoutConstraint(item: textLabel, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.height)
             ]
             addConstraints(textLabelLayoutConstraint)
             
         case .bottom:
-            tirangelImageView = UIImageView(frame: CGRect(x: targetView.center.x-5, y: targetView.frame.origin.y + targetView.frame.size.height + 5, width: 15, height: 20))
+            tirangelImageView = UIImageView(frame: CGRect(x: self.hintLableTargetView.center.x-5, y: self.hintLableTargetView.frame.origin.y + self.hintLableTargetView.frame.size.height + 5, width: 15, height: 20))
             tirangelImageView.clipsToBounds = true
             tirangelImageView.contentMode = .scaleAspectFit
             tirangelImageView.image = .mpTriangleTop()
@@ -125,7 +123,7 @@ public class TAOverlayView: UIView {
             
             let textLabelLayoutConstraint = [
                 NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: tirangelImageView, attribute: .bottom, multiplier: 1, constant: -5)
-                , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: tirangelImageView , attribute: .leading, multiplier: 1, constant:rectangleRect.origin.x - (tirangelImageView.center.x - targetView.frame.size.width / 2))
+                , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: tirangelImageView , attribute: .leading, multiplier: 1, constant:rectangleRect.origin.x - (self.hintLableTargetView.center.x - self.hintLableTargetView.frame.size.width / 2))
                 , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
                 , NSLayoutConstraint(item: textLabel, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.height)
             ]

@@ -23,25 +23,27 @@ class ShowcaseController {
     
     var targetViewController: UIViewController!
     var overlays: [TAOverlayView]!
-    
-    var thisOverlayIndex = 0
+    var currentOverlayIndex = 0
     var delegate: FinishHelpDelegate?
     
     func showNextOverlay() {
         if overlays != nil && overlays.count > 0 {
-            if thisOverlayIndex < (overlays.count - 1) {
+            if currentOverlayIndex < (overlays.count - 1) {
                 UIView.animate(withDuration: 0.5, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                    self.overlays[self.thisOverlayIndex].alpha = 0
+                    self.overlays[self.currentOverlayIndex].alpha = 0
                 }, completion: nil)
-                overlays[thisOverlayIndex].removeFromSuperview()
-                thisOverlayIndex = thisOverlayIndex + 1
+                overlays[currentOverlayIndex].removeFromSuperview()
+                currentOverlayIndex = currentOverlayIndex + 1
                 
-                //targetViewController.view.addSubview(overlays[thisOverlayIndex])
-                targetViewController.view.subviews.filter( {$0 is UIScrollView} ).first?.addSubview(overlays[thisOverlayIndex])
+                if let scrollView = targetViewController.view.subviews.filter( {$0 is UIScrollView} ).first {
+                    scrollView.addSubview(overlays[currentOverlayIndex])
+                } else {
+                    targetViewController.view.addSubview(overlays[currentOverlayIndex])
+                }
                 
-                overlays[thisOverlayIndex].alpha = 0
+                overlays[currentOverlayIndex].alpha = 0
                 UIView.animate(withDuration: 0.5, delay: 0.5, options: UIViewAnimationOptions.curveEaseOut, animations: {
-                    self.overlays[self.thisOverlayIndex].alpha = 1
+                    self.overlays[self.currentOverlayIndex].alpha = 1
                 }, completion: nil)
                 
             } else {
@@ -52,17 +54,23 @@ class ShowcaseController {
     
     func hideHelp() {
         if (overlays != nil && overlays.count > 0) {
-            overlays[thisOverlayIndex].removeFromSuperview()
-            thisOverlayIndex = 0
+            overlays[currentOverlayIndex].removeFromSuperview()
+            currentOverlayIndex = 0
             overlays.removeAll()
             delegate?.helpShowFinished()
+            if let scrollView = targetViewController.view.subviews.filter( {$0 is UIScrollView} ).first {
+                (scrollView as! UIScrollView).isScrollEnabled = true
+            }
         }
-        
     }
     
     func startInstructions() {
-        //targetViewController.view.addSubview(overlays[0])
-        targetViewController.view.subviews.filter( {$0 is UIScrollView} ).first?.addSubview(overlays[0])
+        if let scrollView = targetViewController.view.subviews.filter( {$0 is UIScrollView} ).first {
+            scrollView.addSubview(overlays[0])
+            (scrollView as! UIScrollView).isScrollEnabled = false
+        } else {
+            targetViewController.view.addSubview(overlays[0])
+        }
     }
     
 }
