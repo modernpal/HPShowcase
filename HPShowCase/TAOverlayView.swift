@@ -25,21 +25,30 @@ public class TAOverlayView: UIView {
     
     var hideButton: UIButton!
     
-    var tirangelImageView: UIImageView!
+    var tirangelView: UIView!
     var contentView: UIView!
     var hintText: String = ""
     var hintLableTargetView: UIView!
     var boxPosition: DialogBoxPosition = .bottom
+    var rectangleRect: CGRect!
+    var containerView: UIView!
+    var viewBackgroundColor: UIColor!
+    var textColor: UIColor!
     
     /// Use to init the overlay.
     ///
     /// - parameter frame: The frame to use for the semi-transparent overlay.
     /// - parameter subtractedPaths: The paths to subtract from the overlay initially. These are optional (not adding them creates a plain overlay). More paths can be subtracted later using ``subtractFromView``.
     ///
-    init(subtractedPaths: [TASubtractionPath], hintLableTargetView: UIView?, rectangleRect: CGRect) {
+    init(subtractedPaths: [TASubtractionPath], hintLableTargetView: UIView, hintText: String, containerView: UIView, backgroundColor: UIColor, textColor: UIColor, boxPosition: DialogBoxPosition) {
         super.init(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         
-        self.hintLableTargetView = hintLableTargetView ?? subtractedPaths.first!.view
+        self.boxPosition = boxPosition
+        self.textColor = textColor
+        self.viewBackgroundColor = backgroundColor
+        self.containerView = containerView
+        self.hintText = hintText
+        self.hintLableTargetView = hintLableTargetView
         
         // Set a semi-transparent, black background.
         self.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.6)
@@ -58,7 +67,7 @@ public class TAOverlayView: UIView {
         self.layer.mask = maskLayer
         
         self.subtractFromView(paths: subtractedPaths)
-
+        
         hideButton = UIButton(frame: .zero)
         hideButton.addTarget(self, action: #selector(hideButtonTouchUpInside), for: .touchUpInside)
         hideButton.translatesAutoresizingMaskIntoConstraints = false
@@ -66,73 +75,123 @@ public class TAOverlayView: UIView {
         
         switch boxPosition {
         case .top:
-            tirangelImageView = UIImageView(frame: CGRect(x: self.hintLableTargetView.center.x, y: self.hintLableTargetView.frame.origin.y - 20, width: 15, height: 20))
-            tirangelImageView.clipsToBounds = true
-            tirangelImageView.contentMode = .scaleAspectFit
-            tirangelImageView.image = .mpTriangleBottom()
-            addSubview(tirangelImageView)
+            tirangelView = TriangleView(frame: CGRect(x: self.hintLableTargetView.center.x, y: self.hintLableTargetView.frame.origin.y - 20, width: 15, height: 20), color: viewBackgroundColor)
+            tirangelView.clipsToBounds = true
+            addSubview(tirangelView)
             
-            bringSubview(toFront: tirangelImageView)
+            bringSubview(toFront: tirangelView)
             
-            let textLabel = UITextView(frame: .zero)
+            tirangelView.transform = CGAffineTransform(scaleX: 1, y: -1)
+            
+            let textLabel = UILabel(frame: .zero)
+            textLabel.backgroundColor = viewBackgroundColor
+            textLabel.lineBreakMode = .byClipping
+            textLabel.numberOfLines = 0
             textLabel.clipsToBounds = true
             textLabel.layer.cornerRadius = 6.0
-            //textLabel.backgroundColor = .mpPackageBackgroundColor()
-            //textLabel.font = .UILabelTextSmallerMedium()
-            //textLabel.textColor = .mpCellSelectedBackground()
             textLabel.sizeToFit()
-            textLabel.text = hintText
-            textLabel.isUserInteractionEnabled = false
+            textLabel.textColor = textColor
+            textLabel.text = "\n " + hintText + " \n"
             textLabel.textAlignment = .center
-            textLabel.textContainerInset = UIEdgeInsetsMake(10, 5, 0, 5)
+            textLabel.isUserInteractionEnabled = false
             textLabel.translatesAutoresizingMaskIntoConstraints = false
             addSubview(textLabel)
             
             bringSubview(toFront: textLabel)
             
-            let textLabelLayoutConstraint = [
-                NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: tirangelImageView, attribute: .top, multiplier: 1, constant: 5)
-                , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: tirangelImageView , attribute: .leading, multiplier: 1, constant: rectangleRect.origin.x - (tirangelImageView.center.x - self.hintLableTargetView.frame.size.width / 2))
-                , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
-                , NSLayoutConstraint(item: textLabel, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.height)
-            ]
-            addConstraints(textLabelLayoutConstraint)
+            let fixedWidth = textLabel.frame.size.width
+            textLabel.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            let newSize = textLabel.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = textLabel.frame
+            newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
+            textLabel.frame = newFrame
+            
+            if newFrame.size.width > containerView.frame.size.width {
+                rectangleRect = CGRect(x: hintLableTargetView.frame.origin.x + (hintLableTargetView.frame.size.width / 2) - (newFrame.size.width / 2), y: hintLableTargetView.frame.origin.y + hintLableTargetView.frame.size.height, width: containerView.frame.size.width - 20, height: 0)
+            } else {
+                rectangleRect = CGRect(x: hintLableTargetView.frame.origin.x + (hintLableTargetView.frame.size.width / 2) - (newFrame.size.width / 2), y: hintLableTargetView.frame.origin.y + hintLableTargetView.frame.size.height, width: newFrame.size.width, height: 0)
+            }
+            
+            if rectangleRect.minX < 0 {
+                let textLabelLayoutConstraint = [
+                    NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: tirangelView, attribute: .top, multiplier: 1, constant: 0)
+                    , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: textLabel.superview , attribute: .leading, multiplier: 1, constant: 8)
+                    , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
+                ]
+                addConstraints(textLabelLayoutConstraint)
+            } else if rectangleRect.maxX > containerView.frame.size.width {
+                let textLabelLayoutConstraint = [
+                    NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: tirangelView, attribute: .top, multiplier: 1, constant: 0)
+                    , NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .equal, toItem: textLabel.superview , attribute: .trailing, multiplier: 1, constant: -8)
+                    , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
+                ]
+                addConstraints(textLabelLayoutConstraint)
+            } else {
+                let textLabelLayoutConstraint = [
+                    NSLayoutConstraint(item: textLabel, attribute: .bottom, relatedBy: .equal, toItem: tirangelView, attribute: .top, multiplier: 1, constant: 0)
+                    , NSLayoutConstraint(item: textLabel, attribute: .centerX, relatedBy: .equal, toItem: tirangelView , attribute: .centerX, multiplier: 1, constant: 0)
+                    , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
+                ]
+                addConstraints(textLabelLayoutConstraint)
+            }
             
         case .bottom:
-            tirangelImageView = UIImageView(frame: CGRect(x: self.hintLableTargetView.center.x-5, y: self.hintLableTargetView.frame.origin.y + self.hintLableTargetView.frame.size.height + 5, width: 15, height: 20))
-            tirangelImageView.clipsToBounds = true
-            tirangelImageView.contentMode = .scaleAspectFit
-            tirangelImageView.image = .mpTriangleTop()
-            addSubview(tirangelImageView)
+            tirangelView = TriangleView(frame: CGRect(x: self.hintLableTargetView.center.x - 5, y: self.hintLableTargetView.frame.origin.y + self.hintLableTargetView.frame.size.height + 5, width: 15, height: 20), color: viewBackgroundColor)
+            tirangelView.clipsToBounds = true
+            addSubview(tirangelView)
             
-            let textLabel = UITextView(frame: .zero)
+            let textLabel = UILabel(frame: .zero)
+            textLabel.backgroundColor = viewBackgroundColor
+            textLabel.lineBreakMode = .byClipping
+            textLabel.numberOfLines = 0
             textLabel.clipsToBounds = true
             textLabel.layer.cornerRadius = 6.0
-            //textLabel.backgroundColor = .mpPackageBackgroundColor()
-            //textLabel.font = .UILabelTextSmallerMedium()
-            //textLabel.textColor = .mpCellSelectedBackground()
             textLabel.sizeToFit()
-            textLabel.text = hintText
+            textLabel.textColor = textColor
+            textLabel.text = "\n " + hintText + " \n"
             textLabel.textAlignment = .center
             textLabel.isUserInteractionEnabled = false
-            textLabel.textContainerInset = UIEdgeInsetsMake(10, 5, 0, 5);
             textLabel.translatesAutoresizingMaskIntoConstraints = false
             addSubview(textLabel)
             
             bringSubview(toFront: textLabel)
             
-            let textLabelLayoutConstraint = [
-                NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: tirangelImageView, attribute: .bottom, multiplier: 1, constant: -5)
-                , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: tirangelImageView , attribute: .leading, multiplier: 1, constant:rectangleRect.origin.x - (self.hintLableTargetView.center.x - self.hintLableTargetView.frame.size.width / 2))
-                , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
-                , NSLayoutConstraint(item: textLabel, attribute: .height, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.height)
-            ]
-            addConstraints(textLabelLayoutConstraint)
+            let fixedWidth = textLabel.frame.size.width
+            textLabel.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            let newSize = textLabel.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
+            var newFrame = textLabel.frame
+            newFrame.size = CGSize(width: max(newSize.width, fixedWidth), height: newSize.height)
+            textLabel.frame = newFrame
             
-        case .left:
-            tirangelImageView.image = .mpTriangleLeft()
-        case .right:
-            tirangelImageView.image = .mpTriangleRight()
+            if newFrame.size.width > containerView.frame.size.width {
+                rectangleRect = CGRect(x: hintLableTargetView.frame.origin.x + (hintLableTargetView.frame.size.width / 2) - (newFrame.size.width / 2), y: hintLableTargetView.frame.origin.y + hintLableTargetView.frame.size.height, width: containerView.frame.size.width - 20, height: 0)
+            } else {
+                rectangleRect = CGRect(x: hintLableTargetView.frame.origin.x + (hintLableTargetView.frame.size.width / 2) - (newFrame.size.width / 2), y: hintLableTargetView.frame.origin.y + hintLableTargetView.frame.size.height, width: newFrame.size.width, height: 0)
+            }
+            
+            if rectangleRect.minX < 0 {
+                let textLabelLayoutConstraint = [
+                    NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: tirangelView, attribute: .bottom, multiplier: 1, constant: -5)
+                    , NSLayoutConstraint(item: textLabel, attribute: .leading, relatedBy: .equal, toItem: textLabel.superview , attribute: .leading, multiplier: 1, constant: 8)
+                    , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
+                ]
+                addConstraints(textLabelLayoutConstraint)
+            } else if rectangleRect.maxX > containerView.frame.size.width {
+                let textLabelLayoutConstraint = [
+                    NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: tirangelView, attribute: .bottom, multiplier: 1, constant: -5)
+                    , NSLayoutConstraint(item: textLabel, attribute: .trailing, relatedBy: .equal, toItem: textLabel.superview , attribute: .trailing, multiplier: 1, constant: -8)
+                    , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
+                ]
+                addConstraints(textLabelLayoutConstraint)
+            } else {
+                let textLabelLayoutConstraint = [
+                    NSLayoutConstraint(item: textLabel, attribute: .top, relatedBy: .equal, toItem: tirangelView, attribute: .bottom, multiplier: 1, constant: -5)
+                    , NSLayoutConstraint(item: textLabel, attribute: .centerX, relatedBy: .equal, toItem: tirangelView , attribute: .centerX, multiplier: 1, constant: 0)
+                    , NSLayoutConstraint(item: textLabel, attribute: .width, relatedBy: .equal, toItem: nil , attribute: .notAnAttribute, multiplier: 1, constant: rectangleRect.size.width)
+                ]
+                addConstraints(textLabelLayoutConstraint)
+            }
+            
         }
         
         let hideButtonLayoutConstraint = [
@@ -190,7 +249,5 @@ enum DialogBoxPosition {
     
     case top
     case bottom
-    case right
-    case left
     
 }

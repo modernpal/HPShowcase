@@ -17,7 +17,7 @@
 		2B3D5D1E1F5154670009ACCA /* ShowcaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D5D1D1F5154670009ACCA /* ShowcaseController.swift */; };
 		2B3D5D201F5154B10009ACCA /* TASubtractionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D5D1F1F5154B10009ACCA /* TASubtractionPath.swift */; };
 		2B3D5D221F5154C90009ACCA /* TAOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D5D211F5154C90009ACCA /* TAOverlayView.swift */; };
-		2B3D5D241F5155B60009ACCA /* UIImage+HPShowcase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3D5D231F5155B60009ACCA /* UIImage+HPShowcase.swift */; };
+		B0C168EB1F6FA79C003968A4 /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0C168EA1F6FA79C003968A4 /* TriangleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 		2B3D5D1D1F5154670009ACCA /* ShowcaseController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowcaseController.swift; sourceTree = "<group>"; };
 		2B3D5D1F1F5154B10009ACCA /* TASubtractionPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TASubtractionPath.swift; sourceTree = "<group>"; };
 		2B3D5D211F5154C90009ACCA /* TAOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TAOverlayView.swift; sourceTree = "<group>"; };
-		2B3D5D231F5155B60009ACCA /* UIImage+HPShowcase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+HPShowcase.swift"; sourceTree = "<group>"; };
+		B0C168EA1F6FA79C003968A4 /* TriangleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,7 +114,7 @@
 				2B3D5D1D1F5154670009ACCA /* ShowcaseController.swift */,
 				2B3D5D1F1F5154B10009ACCA /* TASubtractionPath.swift */,
 				2B3D5D211F5154C90009ACCA /* TAOverlayView.swift */,
-				2B3D5D231F5155B60009ACCA /* UIImage+HPShowcase.swift */,
+				B0C168EA1F6FA79C003968A4 /* TriangleView.swift */,
 			);
 			path = HPShowCase;
 			sourceTree = "<group>";
@@ -277,8 +277,8 @@
 				2B3D5D1E1F5154670009ACCA /* ShowcaseController.swift in Sources */,
 				2B3D5CF21F5154200009ACCA /* ViewController.swift in Sources */,
 				2B3D5D201F5154B10009ACCA /* TASubtractionPath.swift in Sources */,
-				2B3D5D241F5155B60009ACCA /* UIImage+HPShowcase.swift in Sources */,
 				2B3D5D221F5154C90009ACCA /* TAOverlayView.swift in Sources */,
+				B0C168EB1F6FA79C003968A4 /* TriangleView.swift in Sources */,
 				2B3D5CF01F5154200009ACCA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

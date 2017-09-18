@@ -3,7 +3,7 @@
 //  HPShowCase
 //
 //  Created by Arash Farahani on 8/26/17.
-//  Copyright © 2017 Arash Farahani. All rights reserved.
+//  Copyright © 2017 Arash Farahani & Mehdi Gilanpour. All rights reserved.
 //
 
 import UIKit
@@ -50,6 +50,13 @@ class ShowcaseController {
                 hideHelp()
             }
         }
+    }
+    
+    func showHelp(helps: [TAOverlayView], targetVireController: UIViewController) {
+        // You can do this if you want first time show Delay
+        ShowcaseController.instance.overlays = helps
+        ShowcaseController.instance.targetViewController = targetVireController
+        ShowcaseController.instance.startInstructions()
     }
     
     func hideHelp() {
