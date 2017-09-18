@@ -60,7 +60,7 @@ public class TASubtractionPath: TABaseSubtractionPath {
         rect.size.height += 2 * self.verticalPadding
         
         if shape == .circle {
-            return UIBezierPath(arcCenter: CGPoint(x: rect.origin.x + rect.size.width/2,y: rect.origin.y + rect.size.height/2), radius: view.frame.size.height/2, startAngle: CGFloat(0), endAngle:CGFloat(M_PI * 2), clockwise: true)
+            return UIBezierPath(arcCenter: CGPoint(x: rect.origin.x + rect.size.width/2,y: rect.origin.y + rect.size.height/2), radius: view.frame.size.height/2, startAngle: CGFloat(0), endAngle:CGFloat(Double.pi * 2), clockwise: true)
         } else {
             return UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
         }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D4C3E6749DC31DC124CDD97C796B06C /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = C801A6F4E2B418123CFA1D3579878DCA /* ReplaceMe.swift */; };
 		2259E8D8B6F821BB382985B591A6999A /* Pods-HPShowcase_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 275B4B619B38E59752E720C1A8CE541D /* Pods-HPShowcase_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2BE7FA991F700306009E62CD /* ShowcaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE7FA981F700306009E62CD /* ShowcaseController.swift */; };
 		2BE7FA9B1F700320009E62CD /* TASubtractionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE7FA9A1F700320009E62CD /* TASubtractionPath.swift */; };
@@ -60,7 +59,6 @@
 		BC632AB5421775D5C976F9D3F9E371B9 /* Pods-HPShowcase_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-HPShowcase_Tests-umbrella.h"; sourceTree = "<group>"; };
 		C1624B0817874B792F5634AA29DA3676 /* Pods-HPShowcase_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-HPShowcase_Example-resources.sh"; sourceTree = "<group>"; };
 		C2C523C6E197CEA61F40AA9613DBE326 /* Pods-HPShowcase_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-HPShowcase_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		C801A6F4E2B418123CFA1D3579878DCA /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReplaceMe.swift; path = HPShowcase/Classes/ReplaceMe.swift; sourceTree = "<group>"; };
 		CFD68E24E6D3153C502226C7F9E3230F /* Pods-HPShowcase_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-HPShowcase_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		D21B4E102B1125C4876F0424E96D8AAB /* HPShowcase.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HPShowcase.xcconfig; sourceTree = "<group>"; };
 		D6FF430C5FD75C7DE7B504F473E5C096 /* Pods-HPShowcase_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-HPShowcase_Example-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 		0DC7893FBA908BD9E94FBA8981B7890F /* HPShowcase */ = {
 			isa = PBXGroup;
 			children = (
-				C801A6F4E2B418123CFA1D3579878DCA /* ReplaceMe.swift */,
 				16A4C662B53B06D4BCE8C13F4C05A0FF /* Support Files */,
 				2BE7FA981F700306009E62CD /* ShowcaseController.swift */,
 				2BE7FA9A1F700320009E62CD /* TASubtractionPath.swift */,
@@ -350,7 +347,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A4B1C278337C4C2CD889DAA29935339 /* HPShowcase-dummy.m in Sources */,
-				0D4C3E6749DC31DC124CDD97C796B06C /* ReplaceMe.swift in Sources */,
 				2BE7FA9B1F700320009E62CD /* TASubtractionPath.swift in Sources */,
 				2BE7FA9D1F70033C009E62CD /* TAOverlayView.swift in Sources */,
 				2BE7FA9F1F700353009E62CD /* TriangleView.swift in Sources */,
