@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'HPShowcase_Example' do
+  pod 'HPShowcase', :path => '../'
+
+  target 'HPShowcase_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
