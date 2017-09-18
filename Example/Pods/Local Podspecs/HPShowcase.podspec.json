@@ -1,0 +1,22 @@
+{
+  "name": "HPShowcase",
+  "version": "0.1.0",
+  "summary": "A short description of HPShowcase.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Aerox1/HPShowcase",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Aerox1": "a.farahani@modernpal.com"
+  },
+  "source": {
+    "git": "https://github.com/Aerox1/HPShowcase.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "HPShowcase/Classes/**/*"
+}
