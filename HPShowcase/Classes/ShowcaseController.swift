@@ -60,6 +60,7 @@ public class ShowcaseController {
     }
     
     func hideHelp() {
+        
         if (overlays != nil && overlays.count > 0) {
             overlays[currentOverlayIndex].removeFromSuperview()
             currentOverlayIndex = 0
