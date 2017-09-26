@@ -31,7 +31,7 @@ class ViewController: UIViewController {
                 TASubtractionPath(view: self.label1, horizontalPadding: 2, verticalPadding: 2, cornerRadius: 6.0, shape: .circle)
                 ]
                 , hintLableTargetView: self.testButton
-                , hintText: "Lorem ipsum dolor sit amet, et "
+                , hintText: "Lorem ipsum dolor sit amet, et  "
                 , containerView: view
                 , backgroundColor: UIColor.red
                 , textColor: UIColor.white
