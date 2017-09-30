@@ -78,6 +78,7 @@ func helpShowFinished() {
 
 - [Arash Farahani](http://github.com/aerox1)
 - [Mehdi Gilanpour](http://github.com/mrealblack)
+Also thanks to [Nick Yap](https://github.com/nyapster) for the idea of overlay.
 
 ## License
 
