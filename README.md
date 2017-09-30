@@ -2,12 +2,12 @@
 
 ![alt text](http://uupload.ir/files/up9t_group_3.png)
 
+![Screenshots](https://github.com/modernpal/HPShowcase/tree/develop/art/show2.gif)
+
 [![CI Status](http://img.shields.io/travis/Aerox1/HPShowcase.svg?style=flat)](https://travis-ci.org/Aerox1/HPShowcase)
 [![Version](https://img.shields.io/cocoapods/v/HPShowcase.svg?style=flat)](http://cocoapods.org/pods/HPShowcase)
 [![License](https://img.shields.io/cocoapods/l/HPShowcase.svg?style=flat)](http://cocoapods.org/pods/HPShowcase)
 [![Platform](https://img.shields.io/cocoapods/p/HPShowcase.svg?style=flat)](http://cocoapods.org/pods/HPShowcase)
-
-![Screenshots](https://github.com/modernpal/HPShowcase/tree/develop/art/show2.gif)
 
 ## Example
 
