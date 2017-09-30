@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/cocoapods/l/HPShowcase.svg?style=flat)](http://cocoapods.org/pods/HPShowcase)
 [![Platform](https://img.shields.io/cocoapods/p/HPShowcase.svg?style=flat)](http://cocoapods.org/pods/HPShowcase)
 
-![Screenshots](https://github.com/modernpal/HPShowcase/tree/develop/art/show2.mp4)
+![Screenshots](https://github.com/modernpal/HPShowcase/tree/develop/art/show2.gif)
 
 ## Example
 
