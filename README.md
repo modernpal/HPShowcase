@@ -11,7 +11,7 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-![alt text](https://github.com/modernpal/HPShowcase/tree/master/art/Capture.JPG "Demo")
+![alt text](https://github.com/modernpal/HPShowcase/tree/master/art/Capture.JPG)
 
 ## Features
 
