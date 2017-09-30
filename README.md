@@ -2,7 +2,7 @@
 
 ![alt text](http://uupload.ir/files/up9t_group_3.png)
 
-![Screenshots](https://github.com/modernpal/HPShowcase/tree/develop/art/show2.gif)
+![alt text](https://github.com/modernpal/HPShowcase/tree/develop/art/show2.gif "Demo")
 
 [![CI Status](http://img.shields.io/travis/Aerox1/HPShowcase.svg?style=flat)](https://travis-ci.org/Aerox1/HPShowcase)
 [![Version](https://img.shields.io/cocoapods/v/HPShowcase.svg?style=flat)](http://cocoapods.org/pods/HPShowcase)
